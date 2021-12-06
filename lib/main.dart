@@ -10,7 +10,7 @@ enum ExampleType {
 }
 
 void main() {
-  const example = ExampleType.greet;
+  const example = ExampleType.masteringWidgets;
   late Widget app;
 
   switch (example) {
@@ -21,7 +21,7 @@ void main() {
       app = const StatefulGreetWidget();
       break;
     case ExampleType.masteringWidgets:
-      app = const MyApp(step: 1);
+      app = const MyApp(step: 7);
       break;
   }
 

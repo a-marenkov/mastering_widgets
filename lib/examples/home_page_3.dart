@@ -80,9 +80,9 @@ class _MyHomePage3State extends State<MyHomePage3> {
                     focusNode.unfocus();
                     addTile(title: input);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.add,
-                    color: Colors.white,
+                    color: Theme.of(context).backgroundColor,
                   ),
                 ),
               ),
@@ -108,8 +108,8 @@ class _MyHomePage3State extends State<MyHomePage3> {
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverPersistentChildDelegate(
-              minHeight: 60.0,
-              maxHeight: 120.0,
+              minHeight: kToolbarHeight,
+              maxHeight: kToolbarHeight * 2,
               child: Container(
                 color: Theme.of(context).primaryColor.withOpacity(0.85),
                 child: Center(
@@ -135,6 +135,10 @@ class _MyHomePage3State extends State<MyHomePage3> {
               },
               childCount: tiles.length,
             ),
+          ),
+          const SliverSafeArea(
+            sliver: SliverToBoxAdapter(),
+            top: false,
           ),
         ],
       ),

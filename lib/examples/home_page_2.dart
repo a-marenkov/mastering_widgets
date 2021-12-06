@@ -30,19 +30,19 @@ class _MyHomePage2State extends State<MyHomePage2> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
-            title: Text('Add tiles'),
+          SliverAppBar(
+            title: const Text('Add tiles'),
             collapsedHeight: kToolbarHeight,
-            expandedHeight: 196,
+            expandedHeight: kToolbarHeight * 2.5,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               background: Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: kToolbarHeight),
+                  padding: const EdgeInsets.only(top: kToolbarHeight),
                   child: Icon(
                     Icons.flutter_dash,
-                    size: 64,
-                    color: Colors.white,
+                    size: 64.0,
+                    color: Theme.of(context).backgroundColor,
                   ),
                 ),
               ),
@@ -63,8 +63,8 @@ class _MyHomePage2State extends State<MyHomePage2> {
           SliverPersistentHeader(
             pinned: true,
             delegate: SliverPersistentChildDelegate(
-              minHeight: 60.0,
-              maxHeight: 120.0,
+              minHeight: kToolbarHeight,
+              maxHeight: kToolbarHeight * 2,
               child: Container(
                 color: Theme.of(context).primaryColor.withOpacity(0.85),
                 child: Center(
@@ -90,6 +90,10 @@ class _MyHomePage2State extends State<MyHomePage2> {
               },
               childCount: tiles.length,
             ),
+          ),
+          const SliverSafeArea(
+            sliver: SliverToBoxAdapter(),
+            top: false,
           ),
         ],
       ),

@@ -88,7 +88,7 @@ class _MyHomePage4State extends State<MyHomePage4> {
                       icon: Icon(
                         Icons.add,
                         color: listenable.text.isNotEmpty
-                            ? Colors.white
+                            ? Theme.of(context).backgroundColor
                             : Theme.of(context).disabledColor,
                       ),
                     );
@@ -144,6 +144,10 @@ class _MyHomePage4State extends State<MyHomePage4> {
               },
               childCount: tiles.length,
             ),
+          ),
+          const SliverSafeArea(
+            sliver: SliverToBoxAdapter(),
+            top: false,
           ),
         ],
       ),

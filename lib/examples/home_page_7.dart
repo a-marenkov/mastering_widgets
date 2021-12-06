@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../common/animated_visibility.dart';
 import '../common/sliver_persistent_child_delegate.dart';
 import '../common/tile_model.dart';
 import '../common/tile_widget.dart';
+import 'details_page.dart';
 
-class MyHomePage5 extends StatefulWidget {
-  const MyHomePage5({Key? key}) : super(key: key);
+class TilesController extends ChangeNotifier {
+  final tiles = <TileViewModel>[];
 
-  @override
-  State<MyHomePage5> createState() => _MyHomePage5State();
+  void addTile({String? title, DateTime? time}) {
+    tiles.add(
+      TileViewModel(
+        title: title ?? 'no data',
+        time: time ?? DateTime.now(),
+      ),
+    );
+    notifyListeners();
+  }
 }
 
-class _MyHomePage5State extends State<MyHomePage5> {
+class MyHomePage7 extends StatefulWidget {
+  const MyHomePage7({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage7> createState() => _MyHomePage7State();
+}
+
+class _MyHomePage7State extends State<MyHomePage7> {
   final textController = TextEditingController();
   final focusNode = FocusNode();
-  final tilesKey = GlobalKey<_MyBodyState>();
 
   @override
   void dispose() {
@@ -26,20 +41,22 @@ class _MyHomePage5State extends State<MyHomePage5> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add tiles'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: _MyAppBar(
-            focusNode: focusNode,
-            tilesKey: tilesKey,
-            textController: textController,
+    return ChangeNotifierProvider(
+      create: (context) => TilesController(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Add tiles'),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: _MyAppBar(
+              focusNode: focusNode,
+              textController: textController,
+            ),
           ),
         ),
+        body: const _MyBody(),
+        floatingActionButton: const _MyFab(),
       ),
-      body: _MyBody(key: tilesKey),
-      floatingActionButton: const _MyFab(),
     );
   }
 }
@@ -47,12 +64,10 @@ class _MyHomePage5State extends State<MyHomePage5> {
 class _MyAppBar extends StatelessWidget {
   final TextEditingController textController;
   final FocusNode focusNode;
-  final GlobalKey<_MyBodyState> tilesKey;
 
   const _MyAppBar({
     required this.textController,
     required this.focusNode,
-    required this.tilesKey,
     Key? key,
   }) : super(key: key);
 
@@ -94,7 +109,8 @@ class _MyAppBar extends StatelessWidget {
               final input = textController.value.text;
               textController.clear();
               focusNode.unfocus();
-              tilesKey.currentState?.addTile(title: input);
+              // Provider.of<TilesController>(context, listen: false).addTile(title: input);
+              context.read<TilesController>().addTile(title: input);
             },
           ),
         ),
@@ -160,30 +176,18 @@ class _AddActionState extends State<_AddAction> {
 }
 
 class _MyBody extends StatefulWidget {
-  const _MyBody({
-    Key? key,
-  }) : super(key: key);
+  const _MyBody({Key? key}) : super(key: key);
 
   @override
   _MyBodyState createState() => _MyBodyState();
 }
 
 class _MyBodyState extends State<_MyBody> {
-  final tiles = <TileViewModel>[];
-
-  void addTile({String? title, DateTime? time}) {
-    setState(() {
-      tiles.add(
-        TileViewModel(
-          title: title ?? 'no data',
-          time: time ?? DateTime.now(),
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final tilesController = context.watch<TilesController>();
+    final tiles = tilesController.tiles;
+
     return CustomScrollView(
       slivers: [
         SliverList(
@@ -192,6 +196,12 @@ class _MyBodyState extends State<_MyBody> {
               final tile = tiles[index];
               return TileWidget(
                 viewModel: tile,
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    DetailsPage.routeName,
+                    arguments: tile,
+                  );
+                },
                 key: ValueKey(tile),
               );
             },
@@ -201,8 +211,8 @@ class _MyBodyState extends State<_MyBody> {
         SliverPersistentHeader(
           pinned: true,
           delegate: SliverPersistentChildDelegate(
-            minHeight: kToolbarHeight,
-            maxHeight: kToolbarHeight * 2,
+            minHeight: 60.0,
+            maxHeight: 120.0,
             child: Container(
               color: Theme.of(context).primaryColor.withOpacity(0.85),
               child: Center(

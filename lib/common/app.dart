@@ -7,6 +7,7 @@ import '../examples/home_page_3.dart';
 import '../examples/home_page_4.dart';
 import '../examples/home_page_5.dart';
 import '../examples/home_page_6.dart';
+import '../examples/home_page_7.dart';
 import 'tile_model.dart';
 
 class MyApp extends StatelessWidget {
@@ -53,6 +54,10 @@ class MyApp extends StatelessWidget {
       case 6:
         // Разбиваем на маленькие виджеты
         home = const MyHomePage6();
+        break;
+      case 7:
+        // Используем провайдер
+        home = const MyHomePage7();
         break;
     }
 

@@ -152,7 +152,9 @@ class _AddActionState extends State<_AddAction> {
       onPressed: isEnabled ? widget.onTap : null,
       icon: Icon(
         Icons.add,
-        color: isEnabled ? Colors.white : Theme.of(context).disabledColor,
+        color: isEnabled
+            ? Theme.of(context).backgroundColor
+            : Theme.of(context).disabledColor,
       ),
     );
   }
@@ -198,7 +200,7 @@ class _MyBodyState extends State<_MyBody> {
                         model: tile,
                       ),
                       settings: RouteSettings(
-                        name: 'details',
+                        name: DetailsPage.routeName,
                         arguments: tile,
                       ),
                     ),
@@ -257,6 +259,10 @@ class _MyBodyState extends State<_MyBody> {
             },
             childCount: tiles.length,
           ),
+        ),
+        const SliverSafeArea(
+          sliver: SliverToBoxAdapter(),
+          top: false,
         ),
       ],
     );
