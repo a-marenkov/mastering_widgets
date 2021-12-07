@@ -8,7 +8,13 @@ import '../common/tile_widget.dart';
 import 'details_page.dart';
 
 class TilesController extends ChangeNotifier {
-  final tiles = <TileViewModel>[];
+  final tiles = <TileViewModel>[
+    TileViewModel(title: 'tile 1', time: DateTime.now()),
+    TileViewModel(title: 'tile 2', time: DateTime.now()),
+    TileViewModel(title: 'tile 3', time: DateTime.now()),
+    TileViewModel(title: 'tile 4', time: DateTime.now()),
+    TileViewModel(title: 'tile 5', time: DateTime.now()),
+  ];
 
   void addTile({String? title, DateTime? time}) {
     tiles.add(

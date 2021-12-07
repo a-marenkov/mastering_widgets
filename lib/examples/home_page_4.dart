@@ -12,7 +12,13 @@ class MyHomePage4 extends StatefulWidget {
 }
 
 class _MyHomePage4State extends State<MyHomePage4> {
-  final tiles = <TileViewModel>[];
+  final tiles = <TileViewModel>[
+    TileViewModel(title: 'tile 1', time: DateTime.now()),
+    TileViewModel(title: 'tile 2', time: DateTime.now()),
+    TileViewModel(title: 'tile 3', time: DateTime.now()),
+    TileViewModel(title: 'tile 4', time: DateTime.now()),
+    TileViewModel(title: 'tile 5', time: DateTime.now()),
+  ];
   final scrollController = ScrollController();
   final textController = TextEditingController();
   final focusNode = FocusNode();

@@ -22,6 +22,7 @@ class StatefulGreetWidget extends StatefulWidget {
 
 class _StatefulGreetWidgetState extends State<StatefulGreetWidget> {
   bool isCity = true;
+  final globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +71,7 @@ class _StatefulGreetWidgetState extends State<StatefulGreetWidget> {
             size: 56,
           ),
           SizedBox(height: 24),
+          // Padding(padding: const EdgeInsets.only(right: 24)),
           Text(
             'Hello Flutter',
             style: TextStyle(
